@@ -6,3 +6,49 @@ author: "Nathan Dang"
 ---
 
 Let's put this up to github! Yippie.
+```{r}
+library(tidyverse)
+```
+```{r}
+library(readr)
+gdp <- read_delim("../data/oecd-gdp.csv")
+head(gdp)
+```
+
+```{r}
+library(ggplot2)
+
+gdpLong <-
+  gdp %>% 
+  pivot_longer(!c(country, indicator),
+               names_to = "year",
+               values_to = "gdp") %>% 
+  mutate(year = as.numeric(year))
+
+gdpLong %>% 
+  head(10)
+```
+
+```{r}
+p <- data.frame(pregnant = c("Yes", "No"),
+                male = c(NA, 25),
+                female = c(11,18))
+
+p
+```
+```{r}
+pl <- p %>% 
+  pivot_longer(c(male, female),
+               names_to = "sex",
+               values_to = "count")
+
+pl
+```
+```{r}
+pl %>% 
+  pivot_wider(id_cols = pregnant,
+              names_from = sex,
+              values_from = count)
+```
+
+
